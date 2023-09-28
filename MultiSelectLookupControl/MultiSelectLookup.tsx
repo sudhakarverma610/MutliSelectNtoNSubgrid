@@ -1,26 +1,26 @@
-import * as React from 'react'; 
+import * as React from 'react';
 
-const MultiSelectLookup = (props: any) => {     
-  const [formMapptedlookup, setformMapptedlookup] = React.useState(props.lookups); 
-  React.useEffect(()=>{
+const MultiSelectLookup = (props: any) => {
+  const [formMapptedlookup, setformMapptedlookup] = React.useState(props.lookups);
+  React.useEffect(() => {
     setformMapptedlookup(props.lookups);
-  },[props])
+  }, [props])
   const OpenLookup = () => {
     props.OpenLookupObject();
   }
   const removeItem = (selectedIt: any) => {
-    setformMapptedlookup(formMapptedlookup.filter((it:any) => !(it.id == selectedIt.id && it.entityType == selectedIt.entityType)));
+    setformMapptedlookup(formMapptedlookup.filter((it: any) => !(it.id == selectedIt.id && it.entityType == selectedIt.entityType)));
     props.RemoveItemFromGrid(selectedIt.id);
   }
   return <>
     <div className='multiSelectLookup'>
       {
-        props.labelEnabled &&
+        // props.labelEnabled &&
 
         <label>{props.labelText}</label>
       }
       <div className='lookupObjectListing'>
-        {formMapptedlookup.map((it:any) => {
+        {formMapptedlookup.map((it: any) => {
           return <div className='lookupObjectListing-item' key={it.id}>
             {props.image && <img src={props.image} alt="" height={20} width={20} />}
             <a href={it.url}>{it.name}</a>

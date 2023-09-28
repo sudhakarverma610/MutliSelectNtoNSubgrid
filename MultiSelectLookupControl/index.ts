@@ -148,33 +148,13 @@ export class MultiSelectLookupControl implements ComponentFramework.StandardCont
                 name: (records as any)[key]._record.fields.fullname.value //(records as any)[key].getValue("fullname")
 
 
-            })
+            });
         }
-
         let customControlProperties = (this.context?.utils as any)?._customControlProperties;
         let labelEnabled = customControlProperties?.descriptor?.ShowLabel;
         let labelText = customControlProperties?.descriptor?.Label;
         let image = context.parameters.controlImageURl.raw ? context.parameters.controlImageURl.raw : "";
-        Render(recordOfArray,labelEnabled,labelText,image,this.OpenLookups,this.RemoveItemFromGrid,this.container);
-        // ReactDOM.render(<MultiSelectLookup lookups={recordOfArray}  labelEnabled={labelEnabled}
-        //     labelText={labelText} image={image} OpenLookupObject={this.OpenLookups} 
-        //     RemoveItemFromGrid={this.RemoveItemFromGrid} />, this.container);
-
-    //    let rootContainer= createRoot(this.container);     //    React.
-    //    rootContainer.render(
-    //     <MultiSelectLookup />
-    //     );
-        // ReactDOM.render(
-        //     React.createElement(MultiSelectLookup, {
-        //         lookups: recordOfArray,
-        //         labelEnabled: labelEnabled,
-        //         labelText: labelText,
-        //         image: image,
-        //         OpenLookupObject: this.OpenLookups,
-        //         RemoveItemFromGrid: this.RemoveItemFromGrid
-        //     }),
-        //     this.container
-        // );
+        Render(recordOfArray,labelEnabled,labelText,image,this.OpenLookups,this.RemoveItemFromGrid,this.container);       
     }
 
 

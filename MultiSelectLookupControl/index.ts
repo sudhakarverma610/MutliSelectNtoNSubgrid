@@ -9,6 +9,7 @@ export class MultiSelectLookupControl implements ComponentFramework.StandardCont
     notifyOutputChanged: () => void;
     container: HTMLDivElement;
     context: ComponentFramework.Context<IInputs>;
+    recordOfArray: { id: string; url: string; entityType: string; name: string; refId: string; }[];
 
     /**
      * Empty constructor.
@@ -36,92 +37,53 @@ export class MultiSelectLookupControl implements ComponentFramework.StandardCont
 
     }
     RemoveItemFromGrid = (id: any) => {
-        let relationShipName = ((this.context.utils) as any)?._customControlProperties?.descriptor?.Parameters?.["RelationshipName"];
-        let entityToOpen = ((this.context.utils) as any)?._customControlProperties?.descriptor?.Parameters?.["TargetEntityType"];
-        if (!entityToOpen) {
-            entityToOpen = this.context.parameters.records.getTargetEntityType();
-
-        }
-        let primaryEntity = (this.context as any)?.page?.entityTypeName;
-        let primaryEntityId = ((this.context) as any)?.page?.entityId;
-        var disassociateRequest = {
-            getMetadata: () => ({
-                boundParameter: null,
-                parameterTypes: {},
-                operationType: 2,
-                operationName: "Disassociate"
-            }),
-
-
-            relationship: relationShipName,
-
-
-            target: {
-                entityType: primaryEntity,
-                id: primaryEntityId
-            },
-
-            relatedEntityId: id
-        }
-
-        let excuteRef = ((this.context.webAPI) as any).execute;
-        excuteRef(disassociateRequest).then(
+        if(this.context.parameters.ConnectionEntityLogicalName.raw)
+        this.context.webAPI.deleteRecord(this.context.parameters.ConnectionEntityLogicalName.raw,id)
+        .then(
             (success: any) => {
                 console.log("Success", success);
                 this.context.parameters.records.refresh();
             },
             (error: any) => {
                 console.log("Error", error);
-            }
-        )
+            } 
+        );
     }
     OpenLookups = () => {
-        let relationShipName = ((this.context.utils) as any)?._customControlProperties?.descriptor?.Parameters?.["RelationshipName"];
-        let entityToOpen = ((this.context.utils) as any)?._customControlProperties?.descriptor?.Parameters?.["TargetEntityType"];
-        if (!entityToOpen) {
-            entityToOpen = this.context.parameters.records.getTargetEntityType();
-
-        }
-        let primaryEntity = ((this.context) as any)?.page?.entityTypeName;
-        let primaryEntityId = ((this.context) as any)?.page?.entityId;
+         let entityToOpen =this.context.parameters.RelatedTableLogicalName.raw? this.context.parameters.RelatedTableLogicalName.raw:"contact"
+         let primaryEntityId = ((this.context) as any)?.page?.entityId;
         var lookupOptions: any =
         {
             defaultEntityType: entityToOpen,
             entityTypes: [entityToOpen],
             allowMultiSelect: true,
             disableMru: true
-        };
-        var manyToManyAssociateRequest = {
-            getMetadata: () => ({
-                boundParameter: null,
-                parameterTypes: {},
-                operationType: 2,
-                operationName: "Associate"
-            }),
-            relationship: relationShipName,
-
-            target: {
-                entityType: primaryEntity,
-                id: primaryEntityId
-            },
-        }
-        let excuteRef = ((this.context.webAPI) as any).execute;
-        this.context.utils.lookupObjects(lookupOptions).then((res) => {
+        };        
+       var createRecordReqRef= this.context.webAPI.createRecord;
+         this.context.utils.lookupObjects(lookupOptions).then((res) => {
             console.log(res);
             if (res && res.length > 0) {
-                (manyToManyAssociateRequest as any).relatedEntities =
-                    res.map(it => { return { id: it.id.replace('{', '').replace('}', ''), entityType: it.entityType } });
-                if (excuteRef) {
-                    excuteRef(manyToManyAssociateRequest).then(
-                        (success: any) => {
-                            console.log("Success", success);
-                            this.context.parameters.records.refresh();
-                        },
-                        (error: any) => {
-                            console.log("Error", error);
-                        }
-                    );
-                }
+                let createRecordsPromise:any[]=[]; 
+                 res.forEach(element => {
+                    var dataToCreate={} as any;
+                    if(this.context.parameters.RelatedTableTypeColumnLogicalName.raw&&this.context.parameters.RelatedTableTypeColumnDefaultValue.raw)
+                    dataToCreate[this.context.parameters.RelatedTableTypeColumnLogicalName.raw]= + this.context.parameters.RelatedTableTypeColumnDefaultValue.raw;
+                    dataToCreate[this.context.parameters.RelatedTableLookupSchemaName.raw+"@odata.bind"]=  "/"+this.context.parameters.RelatedTablePluralLogicalName.raw+"("+element.id.replace('{', '').replace('}', '')+")";
+                    dataToCreate[this.context.parameters.ParentTableSchemaName.raw+"@odata.bind"]="/"+this.context.parameters.ParentTablePluralName.raw+"("+primaryEntityId+")";
+                    let isRecordIsPresent=this.recordOfArray.findIndex(it=>it.id.toLowerCase() == element.id.replace('{', '').replace('}','').toLowerCase()) >-1;
+                     if(this.context.parameters.ConnectionEntityLogicalName.raw && !isRecordIsPresent)
+                    createRecordsPromise.push(
+                        createRecordReqRef(this.context.parameters.ConnectionEntityLogicalName.raw,dataToCreate))
+                });               
+                
+                if(createRecordsPromise.length){
+                    Promise.all(createRecordsPromise).then(it=>{
+                        console.log('Records Created',it);
+                        this.context.parameters.records.refresh();
+                    }).catch(err=>{
+                        console.log('Records Not Created',err);
+                    })
+                }               
             }
         }, err => {
             console.log(err)
@@ -138,14 +100,14 @@ export class MultiSelectLookupControl implements ComponentFramework.StandardCont
         let recordOfArray = [];
         let records = gridParams.records;//context.parameters.records.records || gridParams;
         for (let key in records) {
-            let type = "contact";
-            if ((records as any)[key].getNamedReference)
-                type = (records as any)[key]?.getNamedReference()?.logicalName
+            const contactRef:{etn:string,id:{guid:string},name:string}=records[key].getValue((this.context.parameters.RelatedTableLookupSchemaName.raw as any).toLowerCase()) as any;
+            let type = contactRef.etn; 
             recordOfArray.push({
-                "id": key,
-                url: '?pagetype=entityrecord&etn=' + type + '&id=' + key,
+                "id": contactRef.id.guid,
+                url: '?pagetype=entityrecord&etn=' + type + '&id=' + contactRef.id.guid,
                 entityType: type,
-                name: (records as any)[key]._record.fields.fullname.value //(records as any)[key].getValue("fullname")
+                name: contactRef.name,
+                refId:key
 
 
             });
@@ -154,6 +116,7 @@ export class MultiSelectLookupControl implements ComponentFramework.StandardCont
         let labelEnabled = customControlProperties?.descriptor?.ShowLabel;
         let labelText = customControlProperties?.descriptor?.Label;
         let image = context.parameters.controlImageURl.raw ? context.parameters.controlImageURl.raw : "";
+        this.recordOfArray=recordOfArray;
         Render(recordOfArray,labelEnabled,labelText,image,this.OpenLookups,this.RemoveItemFromGrid,this.container);       
     }
 

@@ -24,8 +24,17 @@
       <property-set name="samplePropertySet" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
       -->
  
-    </data-set>
-    <property name="controlLabel" display-name-key="controlLabel_Key" description-key="controlLabel_Desc" of-type="SingleLine.Text" usage="input" required="true"/>
+    </data-set> 
+    <property name="ConnectionEntityLogicalName" display-name-key="ConnectionEntityLogicalName_Key" description-key="ConnectionEntityLogicalName_Desc" of-type="SingleLine.Text" usage="input" required="true"/>
+   
+   
+    <property name="ParentTableSchemaName" display-name-key="ConnectionParentTableColumnSchemaName_Name" description-key="ParentTableSchemaName_Desc" of-type="SingleLine.Text" usage="input" required="true"/>
+    <property name="ParentTablePluralName" display-name-key="ConnectionParentTablePluralName_Name(APIName)" description-key="ParentTablePluralName_Desc" of-type="SingleLine.Text" usage="input" required="true"/>
+    <property name="RelatedTableLookupSchemaName" display-name-key="ConnectionRelatedTableColumnLookupSchemaName_Name" description-key="RelatedTableLookupSchemaName_Desc" of-type="SingleLine.Text" usage="input" required="true"/>
+    <property name="RelatedTableLogicalName" display-name-key="ConnectionRelatedTableLogicalName" description-key="RelatedTableLogicalName_Desc" of-type="SingleLine.Text" usage="input" required="true"/>
+    <property name="RelatedTablePluralLogicalName" display-name-key="ConnectionRelatedTablePluralLogicalName(API)" description-key="RelatedTablePluralLogicalName_Desc" of-type="SingleLine.Text" usage="input" required="true"/>
+    <property name="RelatedTableTypeColumnLogicalName" display-name-key="ConnectionRelatedTableTypeColumnLogicalName_Key" description-key="RelatedTableTypeColumnLogicalName_Desc" of-type="SingleLine.Text" usage="input" required="true"/>
+    <property name="RelatedTableTypeColumnDefaultValue" display-name-key="ConnectionRelatedTableTypeColumnDefaultValue_Key" description-key="RelatedTableTypeColumnDefaultValue_Desc" of-type="SingleLine.Text" usage="input" required="true"/>
     <property name="controlImageURl" display-name-key="controlImageURl_Key" description-key="controlImageURl_Desc" of-type="SingleLine.Text" usage="input" required="true"/>
 
     <resources>

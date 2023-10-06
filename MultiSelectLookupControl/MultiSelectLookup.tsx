@@ -10,7 +10,7 @@ const MultiSelectLookup = (props: any) => {
   }
   const removeItem = (selectedIt: any) => {
     setformMapptedlookup(formMapptedlookup.filter((it: any) => !(it.id == selectedIt.id && it.entityType == selectedIt.entityType)));
-    props.RemoveItemFromGrid(selectedIt.id);
+    props.RemoveItemFromGrid(selectedIt.refId);
   }
   return <>
     <div className='multiSelectLookup'>

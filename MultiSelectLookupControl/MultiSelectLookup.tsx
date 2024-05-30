@@ -13,12 +13,7 @@ const MultiSelectLookup = (props: any) => {
     props.RemoveItemFromGrid(selectedIt.id);
   }
   return <>
-    <div className='multiSelectLookup'>
-      {
-        props.labelEnabled &&
-
-        <label>{props.labelText}</label>
-      }
+    <div className='multiSelectLookup'>      
       <div className='lookupObjectListing'>
         {formMapptedlookup.map((it:any) => {
           return <div className='lookupObjectListing-item' key={it.id}>

@@ -125,9 +125,7 @@ export class MultiSelectLookupControl implements ComponentFramework.StandardCont
             }
         }, err => {
             console.log(err)
-        })
-
-
+        });
     }
     /**
      * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
@@ -136,27 +134,24 @@ export class MultiSelectLookupControl implements ComponentFramework.StandardCont
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         let gridParams = context.parameters.records;
         let recordOfArray = [];
-        let records = gridParams.records;//context.parameters.records.records || gridParams;
+        let records = gridParams.records;
         for (let key in records) {
             let type = "contact";
             if ((records as any)[key].getNamedReference)
-                type = (records as any)[key]?.getNamedReference()?.logicalName
+                type = (records as any)[key]?.getNamedReference()?.logicalName             
+            var record=(records as any)[key];
             recordOfArray.push({
                 "id": key,
                 url: '?pagetype=entityrecord&etn=' + type + '&id=' + key,
                 entityType: type,
-                name: (records as any)[key]._record.fields.fullname.value //(records as any)[key].getValue("fullname")
-
-
+                name: record._record.fields[record._primaryFieldName].value
             })
         }
-
         let customControlProperties = (this.context?.utils as any)?._customControlProperties;
         let labelEnabled = customControlProperties?.descriptor?.ShowLabel;
         let labelText = customControlProperties?.descriptor?.Label;
         let image = context.parameters.controlImageURl.raw ? context.parameters.controlImageURl.raw : "";
-        Render(recordOfArray,labelEnabled,labelText,image,this.OpenLookups,this.RemoveItemFromGrid,this.container);
-        
+        Render(recordOfArray,labelEnabled,labelText,image,this.OpenLookups,this.RemoveItemFromGrid,this.container);        
     }
 
 

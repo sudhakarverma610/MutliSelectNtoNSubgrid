@@ -1,0 +1,20 @@
+2024-05-30 12:38:24.067 - Info	
+Packing C:\MultiSelectPCF\MutliSelectNtoNSubgrid\MutliLookup\obj\Debug\Metadata to bin\Debug\MutliLookup.zip
+
+2024-05-30 12:38:24.075 - Info	Processing Component: Entities
+2024-05-30 12:38:24.077 - Info	Processing Component: Roles
+2024-05-30 12:38:24.079 - Info	Processing Component: Workflows
+2024-05-30 12:38:24.080 - Info	Processing Component: FieldSecurityProfiles
+2024-05-30 12:38:24.080 - Info	Processing Component: Templates
+2024-05-30 12:38:24.081 - Info	Processing Component: EntityMaps
+2024-05-30 12:38:24.081 - Info	Processing Component: EntityRelationships
+2024-05-30 12:38:24.083 - Info	Processing Component: OrganizationSettings
+2024-05-30 12:38:24.084 - Info	Processing Component: optionsets
+2024-05-30 12:38:24.084 - Info	Processing Component: CustomControls
+2024-05-30 12:38:24.091 - Info	 - TKMX.MultiSelectLookupControl
+2024-05-30 12:38:24.095 - Info	Processing Component: SolutionPluginAssemblies
+2024-05-30 12:38:24.096 - Info	Processing Component: EntityDataProviders
+2024-05-30 12:38:24.099 - Info	Processing Sharded Component Files
+2024-05-30 12:38:24.147 - Info	
+Unmanaged Pack complete.
+

@@ -1,0 +1,100 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\MultiSelectPCF\\MutliSelectNtoNSubgrid\\MutliLookup\\MutliLookup.cdsproj": {}
+  },
+  "projects": {
+    "C:\\MultiSelectPCF\\MutliSelectNtoNSubgrid\\MultiSelectLookupControl.pcfproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\MultiSelectPCF\\MutliSelectNtoNSubgrid\\MultiSelectLookupControl.pcfproj",
+        "projectName": "MultiSelectLookupControl",
+        "projectPath": "C:\\MultiSelectPCF\\MutliSelectNtoNSubgrid\\MultiSelectLookupControl.pcfproj",
+        "packagesPath": "C:\\Users\\Sudhakar.Verma\\.nuget\\packages\\",
+        "outputPath": "C:\\MultiSelectPCF\\MutliSelectNtoNSubgrid\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Sudhakar.Verma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net462"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net462": {
+            "targetAlias": "net462",
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net462": {
+          "targetAlias": "net462",
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Microsoft.PowerApps.MSBuild.Pcf": {
+              "target": "Package",
+              "version": "[1.*, )"
+            }
+          }
+        }
+      }
+    },
+    "C:\\MultiSelectPCF\\MutliSelectNtoNSubgrid\\MutliLookup\\MutliLookup.cdsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\MultiSelectPCF\\MutliSelectNtoNSubgrid\\MutliLookup\\MutliLookup.cdsproj",
+        "projectName": "MutliLookup",
+        "projectPath": "C:\\MultiSelectPCF\\MutliSelectNtoNSubgrid\\MutliLookup\\MutliLookup.cdsproj",
+        "packagesPath": "C:\\Users\\Sudhakar.Verma\\.nuget\\packages\\",
+        "outputPath": "C:\\MultiSelectPCF\\MutliSelectNtoNSubgrid\\MutliLookup\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Sudhakar.Verma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net462"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net462": {
+            "targetAlias": "net462",
+            "projectReferences": {
+              "C:\\MultiSelectPCF\\MutliSelectNtoNSubgrid\\MultiSelectLookupControl.pcfproj": {
+                "projectPath": "C:\\MultiSelectPCF\\MutliSelectNtoNSubgrid\\MultiSelectLookupControl.pcfproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net462": {
+          "targetAlias": "net462",
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Microsoft.PowerApps.MSBuild.Solution": {
+              "target": "Package",
+              "version": "[1.*, )"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "MICDSJKZhzJ62I0eWrkLaljdyjlLiHnWjIyf10FzdyO8UUqYTlwwcuqEqAq5MhAl5f1gqOESyePgGCH2L/xTBA==",
+  "success": true,
+  "projectFilePath": "C:\\MultiSelectPCF\\MutliSelectNtoNSubgrid\\MutliLookup\\MutliLookup.cdsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Sudhakar.Verma\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.0\\microsoft.netframework.referenceassemblies.1.0.0.nupkg.sha512",
+    "C:\\Users\\Sudhakar.Verma\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net462\\1.0.0\\microsoft.netframework.referenceassemblies.net462.1.0.0.nupkg.sha512",
+    "C:\\Users\\Sudhakar.Verma\\.nuget\\packages\\microsoft.powerapps.msbuild.pcf\\1.32.5\\microsoft.powerapps.msbuild.pcf.1.32.5.nupkg.sha512",
+    "C:\\Users\\Sudhakar.Verma\\.nuget\\packages\\microsoft.powerapps.msbuild.solution\\1.32.5\\microsoft.powerapps.msbuild.solution.1.32.5.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -84,6 +84,7 @@ export class MultiSelectLookupControl implements ComponentFramework.StandardCont
         }
         let primaryEntity = ((this.context) as any)?.page?.entityTypeName;
         let primaryEntityId = ((this.context) as any)?.page?.entityId;
+        let lookupFilter=this.context.parameters.lookupFilter.raw;
         var lookupOptions: any =
         {
             defaultEntityType: entityToOpen,
@@ -91,6 +92,9 @@ export class MultiSelectLookupControl implements ComponentFramework.StandardCont
             allowMultiSelect: true,
             disableMru: true
         };
+        if(lookupFilter){
+            lookupOptions.filters=[{filterXml:lookupFilter,entityLogicalName: entityToOpen}];
+        }
         var manyToManyAssociateRequest = {
             getMetadata: () => ({
                 boundParameter: null,

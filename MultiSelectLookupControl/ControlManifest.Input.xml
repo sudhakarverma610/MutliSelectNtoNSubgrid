@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="TKMX" constructor="MultiSelectLookupControl" version="2.0.1" display-name-key="MultiSelectLookupControl" description-key="MultiSelectLookupControl description" control-type="standard" >
+  <control namespace="TKMX" constructor="MultiSelectLookupControl" version="3.0.1" display-name-key="MultiSelectLookupControl" description-key="MultiSelectLookupControl description" control-type="standard" >
      <external-service-usage enabled="false">     
     </external-service-usage>    
     <data-set name="records" display-name-key="Records_Dataset_Display_Key">      
     </data-set>
      <property name="controlImageURl" display-name-key="controlImageURl_Key" description-key="controlImageURl_Desc" of-type="SingleLine.Text" usage="input" required="true"/>
+     <property name="lookupFilter" display-name-key="lookupFilter_Key" description-key="lookupFilter_Desc" of-type="Multiple" usage="input"/>
     <resources>
       <code path="index.ts" order="1"/>
       <css path="MultiSelectLookup.module.css" order="1" />

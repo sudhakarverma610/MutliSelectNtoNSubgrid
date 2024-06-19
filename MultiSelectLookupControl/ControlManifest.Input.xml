@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="TKMX" constructor="MultiSelectLookupControl" version="3.0.1" display-name-key="MultiSelectLookupControl" description-key="MultiSelectLookupControl description" control-type="standard" >
+  <control namespace="TKMX" constructor="MultiSelectLookupControl" version="3.0.2" display-name-key="MultiSelectLookupControl" description-key="MultiSelectLookupControl description" control-type="standard" >
      <external-service-usage enabled="false">     
     </external-service-usage>    
     <data-set name="records" display-name-key="Records_Dataset_Display_Key">      

@@ -93,6 +93,22 @@ export class MultiSelectLookupControl implements ComponentFramework.StandardCont
             disableMru: true
         };
         if(lookupFilter){
+           var findPlaceholders= lookupFilter.match(/\[([^\]]*)]/g);
+           var formContext=(window as any)?.Xrm?.Page;
+           if(findPlaceholders&&findPlaceholders.length>0){
+            findPlaceholders.forEach(placeholder => {
+               var attribute=   formContext.getAttribute(placeholder.replace('[','').replace(']',''));               
+                if(attribute){
+                    var attributeValue= attribute.getValue();
+                    if(attribute.getAttributeType()=="lookup"){
+                    attributeValue= attribute.getValue()?.[0].id.replace("{","").replace("}","");
+                    } 
+                    if(attributeValue&&lookupFilter){
+                        lookupFilter=lookupFilter.replace(placeholder,attributeValue)
+                    }
+                }
+            });
+           }
             lookupOptions.filters=[{filterXml:lookupFilter,entityLogicalName: entityToOpen}];
         }
         var manyToManyAssociateRequest = {
@@ -131,6 +147,7 @@ export class MultiSelectLookupControl implements ComponentFramework.StandardCont
             console.log(err)
         });
     }
+    
     /**
      * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
      * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions

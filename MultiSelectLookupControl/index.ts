@@ -75,7 +75,7 @@ export class MultiSelectLookupControl implements ComponentFramework.StandardCont
             }
         )
     }
-    OpenLookups = () => {
+    OpenLookups = async() => {
         let relationShipName = ((this.context.utils) as any)?._customControlProperties?.descriptor?.Parameters?.["RelationshipName"];
         let entityToOpen = ((this.context.utils) as any)?._customControlProperties?.descriptor?.Parameters?.["TargetEntityType"];
         if (!entityToOpen) {
@@ -96,18 +96,65 @@ export class MultiSelectLookupControl implements ComponentFramework.StandardCont
            var findPlaceholders= lookupFilter.match(/\[([^\]]*)]/g);
            var formContext=(window as any)?.Xrm?.Page;
            if(findPlaceholders&&findPlaceholders.length>0){
-            findPlaceholders.forEach(placeholder => {
-               var attribute=   formContext.getAttribute(placeholder.replace('[','').replace(']',''));               
-                if(attribute){
-                    var attributeValue= attribute.getValue();
-                    if(attribute.getAttributeType()=="lookup"){
-                    attributeValue= attribute.getValue()?.[0].id.replace("{","").replace("}","");
-                    } 
-                    if(attributeValue&&lookupFilter){
-                        lookupFilter=lookupFilter.replace(placeholder,attributeValue)
+            for (let index = 0; index < findPlaceholders.length; index++) {
+                const placeholder = findPlaceholders[index];
+                var attribute=   formContext.getAttribute(placeholder.replace('[','').replace(']',''));       
+                if( placeholder==='[tkmx_account]')
+                 {
+                  console.log('xxx');
+                  let attributeValue= attribute.getValue();
+                  if(attribute.getAttributeType()=="lookup"){
+                  attributeValue= attribute.getValue()?.[0].id.replace("{","").replace("}","");
+                  } 
+                  let getSubAccounts=async (id:any,accountsId:string[])=>{
+                     var accountsResults=await this.context.webAPI.retrieveMultipleRecords("account","?$filter=_parentaccountid_value eq '"+id+"'&$select=accountid")
+                     let ids= accountsResults.entities.map(it=>it.accountid);
+                     ids.forEach(it=>{
+                         accountsId.push(it);
+                         getSubAccounts(it,accountsId)
+                     })
+                     return accountsId;
+                  }
+                  let getParentAccounts = async (id: any, accountsId: string[]) => {
+                    // Retrieve the current account to get its parent account ID
+                    const accountResult = await this.context.webAPI.retrieveRecord(
+                        "account",
+                        id,
+                        "?$select=_parentaccountid_value"
+                    );
+                
+                    // Check if the account has a parent account
+                    const parentAccountId = accountResult._parentaccountid_value;
+                    if (parentAccountId) {
+                        accountsId.push(parentAccountId);
+                        // Recursively get the parent accounts
+                        await getParentAccounts(parentAccountId, accountsId);
                     }
-                }
-            });
+                
+                    return accountsId;
+                };
+                
+                 var subaccountIds=await getSubAccounts(attributeValue,[attributeValue]);
+                 var parentaccountIds=await getParentAccounts(attributeValue,[]);
+           
+                // Merge and remove duplicates
+                let mergedArray = Array.from( new Set([...subaccountIds, ...parentaccountIds]));
+ 
+                var subaccountValue=  mergedArray.map(it=>'<value>'+it+'</value>').join("");
+                if(subaccountValue&&lookupFilter){
+                  lookupFilter=lookupFilter.replace(placeholder,subaccountValue)
+                 }
+ 
+                } else if(attribute){
+                     let attributeValue= attribute.getValue();
+                     if(attribute.getAttributeType()=="lookup"){
+                     attributeValue= attribute.getValue()?.[0].id.replace("{","").replace("}","");
+                     } 
+                     if(attributeValue&&lookupFilter){
+                         lookupFilter=lookupFilter.replace(placeholder,attributeValue)
+                     }
+                 }
+            }            
            }
             lookupOptions.filters=[{filterXml:lookupFilter,entityLogicalName: entityToOpen}];
         }
